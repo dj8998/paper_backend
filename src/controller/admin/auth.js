@@ -45,7 +45,8 @@ exports.signup = (req, res) => {
 
 			if(data){
 				return res.status(201).json({
-				message: 'Admin created Sucessfully'
+				message: 'Admin created Sucessfully',
+				
 			});
 			}
 		})
@@ -60,12 +61,12 @@ exports.signin = (req, res) => {
 			console.log(user)
 			if(user.authenticate(req.body.password ) && user.role === 'admin'){
 				var token = jwt.sign({_id: user._id, role: user.role}, "heheh", {expiresIn: '1h'});
-				const { _id, firstName, lastName, email, role, fulname} = user;
+				const { _id, firstName, lastName, email, role, fulname,username} = user;
 				res.cookie('token', token, {expiresIn: '2h'})
 				res.status(200).json({
 					token,
 					user: {
-						_id, firstName, lastName, email, role, fulname
+						_id, firstName, lastName, email, role, fulname, username
 					}
 				});
 			}else{
